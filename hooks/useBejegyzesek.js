@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 
-const kezdetiBejegyzesek = [
-  { nev: 'Lajos', hely: '1.hely', kedvenc: false },
-  { nev: 'Feri', hely: '2.hely', kedvenc: false },
-  { nev: 'Károly', hely: '3.hely', kedvenc: false },
+const mintaBejegyzesek = [
+  { id: '1', cim: 'Balatoni hétvége', hely: 'Siófok', leiras: 'Strandolás és lángos.', kedvenc: false },
+  { id: '2', cim: 'Városnézés', hely: 'Bécs', kedvenc: true },
+  { id: '3', cim: 'Kirándulás', hely: 'Mátra', leiras: 'Túra a Kékestetőre.', kedvenc: false },
 ];
 
 function useBejegyzesek() {
@@ -12,7 +12,7 @@ function useBejegyzesek() {
 
   useEffect(() => {
     const idozito = setTimeout(() => {
-      setBejegyzesek(kezdetiBejegyzesek);
+      setBejegyzesek(mintaBejegyzesek);
       setBetoltes(false);
     }, 500);
 
@@ -20,24 +20,15 @@ function useBejegyzesek() {
   }, []);
 
   const hozzaad = (cim, hely) => {
-    const ujBejegyzes = {
-      nev: cim,
-      hely,
-      kedvenc: false,
-    };
-    setBejegyzesek((elozo) => [...elozo, ujBejegyzes]);
+    const ujBejegyzes = { id: Date.now().toString(), cim, hely, kedvenc: false };
+    setBejegyzesek((b) => [...b, ujBejegyzes]);
   };
 
-  const kedvencValt = (index) => {
-    setBejegyzesek((elozo) => elozo.map((elem, i) => (i === index ? { ...elem, kedvenc: !elem.kedvenc } : elem)));
+  const kedvencValt = (id) => {
+    setBejegyzesek((b) => b.map((elem) => (elem.id === id ? { ...elem, kedvenc: !elem.kedvenc } : elem)));
   };
 
-  return {
-    bejegyzesek,
-    betoltes,
-    hozzaad,
-    kedvencValt,
-  };
+  return { bejegyzesek, betoltes, hozzaad, kedvencValt };
 }
 
 export default useBejegyzesek;

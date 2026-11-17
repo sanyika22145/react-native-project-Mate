@@ -1,13 +1,14 @@
-import { Text, Button } from 'react-native';
+import { Button, Text, View } from 'react-native';
 
-export default function Bejegyzes({ nev, hely, leiras, kedvenc, onKedvencValt }) {
+export default function Bejegyzes({ cim, hely, leiras, kedvenc, onKedvencValt }) {
   return (
-    <>
+    <View>
       <Text>
-        Sziaa, {nev}, {hely} {kedvenc ? '*' : ''}
+        {cim} {kedvenc ? '*' : ''}
       </Text>
-      {leiras && <Text>{leiras}</Text>}
+      <Text>{hely}</Text>
+      {leiras ? <Text>{leiras}</Text> : null}
       <Button title={kedvenc ? 'Kedvenc törlése' : 'Kedvencnek jelöl'} onPress={onKedvencValt} />
-    </>
+    </View>
   );
 }
