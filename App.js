@@ -40,7 +40,7 @@ export default function App() {
   };
 
   return (
-    <ScrollView style={{ marginTop: 50 }} keyboardShouldPersistTaps="handled">
+    <ScrollView style={{ marginTop: 50, backgroundColor: '#fff', }} keyboardShouldPersistTaps="handled">
       <Text>
         Összesen: {osszesDarab} db | Kedvencek: {kedvencDarab} db
       </Text>
