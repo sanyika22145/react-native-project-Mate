@@ -1,12 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import { useMemo, useState } from 'react';
-import { Button, ScrollView, Text, TextInput } from 'react-native';
+import { Button, ScrollView, Text, TextInput, StyleSheet, View } from 'react-native';
 import Bejegyzes from './components/Bejegyzes.js';
 import useBejegyzesek from './hooks/useBejegyzesek.js';
 
 export default function App() {
   const [cim, setCim] = useState('');
   const [hely, setHely] = useState('');
+  const [keresesSzoveg, setKeresesSzoveg] = useState('');
   const [kereses, setKereses] = useState('');
   const [szuro, setSzuro] = useState('osszes');
   const { bejegyzesek, betoltes, hozzaad, kedvencValt } = useBejegyzesek();
@@ -41,15 +42,33 @@ export default function App() {
 
   return (
     <ScrollView style={{ marginTop: 50, backgroundColor: '#fff', }} keyboardShouldPersistTaps="handled">
-      <Text>
-        Összesen: {osszesDarab} db | Kedvencek: {kedvencDarab} db
-      </Text>
+      <View style = {[styles.statisztika]}>
+        <Text >
+          Összesen: {osszesDarab} db
+        </Text>
+        <Text >
+          Kedvencek: {kedvencDarab} db
+        </Text>
+        
+      </View>
+        <TextInput placeholder="Cím" value={cim} onChangeText={setCim} />
+        <TextInput placeholder="Hely" value={hely} onChangeText={setHely} />
+        <Button title="Hozzáadás" onPress={ujBejegyzesHozzaadasa} />
 
-      <TextInput placeholder="Cím" value={cim} onChangeText={setCim} />
-      <TextInput placeholder="Hely" value={hely} onChangeText={setHely} />
-      <Button title="Hozzáadás" onPress={ujBejegyzesHozzaadasa} />
+      
+      <View style = {[styles.bevitel]}>
+        <TextInput style = {[styles.kereso]}
+          placeholder="Keresés cím vagy hely alapján"
+          value={keresesSzoveg}
+          onChangeText={setKeresesSzoveg}
+          
+        />
+        <Button title="Keresés" onPress={() => setKereses(keresesSzoveg)} />
+      </View>
 
-      <TextInput placeholder="Keresés cím vagy hely alapján" value={kereses} onChangeText={setKereses} />
+      
+
+      
       <Button title="Összes" onPress={() => setSzuro('osszes')} />
       <Button title="Kedvencek" onPress={() => setSzuro('kedvencek')} />
       <Button title="Nem kedvencek" onPress={() => setSzuro('nemKedvencek')} />
@@ -75,3 +94,26 @@ export default function App() {
     </ScrollView>
   );
 }
+
+const styles = StyleSheet.create({
+  statisztika:{
+    flex:1,
+    gap:50,
+    flexDirection:'row',
+    justifyContent:'center'
+  
+  },
+  kereso:{
+    flex:1,
+
+
+    
+  },
+  bevitel:{
+
+    flex:1,
+    flexDirection:'row',
+    justifyContent:'space-between'
+    
+  },
+})
