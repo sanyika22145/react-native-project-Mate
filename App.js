@@ -1,8 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import { useMemo, useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import Bejegyzes from './components/Bejegyzes.js';
+import Gomb from './components/Gomb.js';
 import useBejegyzesek from './hooks/useBejegyzesek.js';
+import { szinek, tavolsag } from './theme.js';
 
 export default function App() {
   const [cim, setCim] = useState('');
@@ -15,7 +17,6 @@ export default function App() {
 
   const osszesDarab = bejegyzesek.length;
   const kedvencDarab = bejegyzesek.filter((b) => b.kedvenc).length;
-  const gombStilus = ({ pressed }) => [styles.gomb, pressed && styles.lenyomottGomb];
 
   const szurtBejegyzesek = useMemo(() => {
     const keresett = kereses.trim().toLowerCase();
@@ -39,7 +40,10 @@ export default function App() {
   };
 
   return (
-    <ScrollView style={{ marginTop: 50, backgroundColor: '#fff' }} keyboardShouldPersistTaps="handled">
+    <ScrollView
+      style={{ marginTop: tavolsag.statisztikaKoz, backgroundColor: szinek.hatter }}
+      keyboardShouldPersistTaps="handled"
+    >
       <View style={[styles.statisztika]}>
         <Text>Összesen: {osszesDarab} db</Text>
         <Text>Kedvencek: {kedvencDarab} db</Text>
@@ -56,9 +60,7 @@ export default function App() {
         value={hely}
         onChangeText={setHely}
       />
-      <Pressable onPress={ujBejegyzesHozzaadasa} style={gombStilus}>
-        <Text>Hozzáadás</Text>
-      </Pressable>
+      <Gomb cim="Hozzáadás" onPress={ujBejegyzesHozzaadasa} />
       <View style={[styles.bevitel]}>
         <TextInput
           style={[styles.input, styles.kereso]}
@@ -66,19 +68,11 @@ export default function App() {
           value={keresesSzoveg}
           onChangeText={setKeresesSzoveg}
         />
-        <Pressable onPress={() => setKereses(keresesSzoveg)} style={gombStilus}>
-          <Text>Keresés</Text>
-        </Pressable>
+        <Gomb cim="Keresés" onPress={() => setKereses(keresesSzoveg)} />
       </View>
-      <Pressable onPress={() => setSzuro('osszes')} style={gombStilus}>
-        <Text>Összes</Text>
-      </Pressable>
-      <Pressable onPress={() => setSzuro('kedvencek')} style={gombStilus}>
-        <Text>Kedvencek</Text>
-      </Pressable>
-      <Pressable onPress={() => setSzuro('nemKedvencek')} style={gombStilus}>
-        <Text>Nem kedvencek</Text>
-      </Pressable>
+      <Gomb cim="Összes" onPress={() => setSzuro('osszes')} tipus="masodlagos" />
+      <Gomb cim="Kedvencek" onPress={() => setSzuro('kedvencek')} tipus="masodlagos" />
+      <Gomb cim="Nem kedvencek" onPress={() => setSzuro('nemKedvencek')} tipus="masodlagos" />
       <Text>
         Szűrő: {szuro} | Találatok: {szurtBejegyzesek.length} db
       </Text>
@@ -104,17 +98,17 @@ export default function App() {
 const styles = StyleSheet.create({
   statisztika: {
     flex: 1,
-    gap: 50,
+    gap: tavolsag.statisztikaKoz,
     flexDirection: 'row',
     justifyContent: 'center',
   },
   input: {
     borderWidth: 1,
-    padding: 8,
-    borderRadius: 6,
+    padding: tavolsag.kozepes,
+    borderRadius: tavolsag.kicsi,
   },
   hibaInput: {
-    borderColor: 'red',
+    borderColor: szinek.hiba,
   },
   kereso: {
     flex: 1,
@@ -123,13 +117,5 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-  },
-  gomb: {
-    borderWidth: 1,
-    padding: 8,
-    alignItems: 'center',
-  },
-  lenyomottGomb: {
-    opacity: 0.5,
   },
 });

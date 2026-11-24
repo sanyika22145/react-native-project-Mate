@@ -1,1 +1,1 @@
-Barna Máté és Bíró Bence
+Barna Máté és Lakatos Roland

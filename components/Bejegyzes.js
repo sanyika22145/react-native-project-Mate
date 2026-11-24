@@ -1,13 +1,17 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import { betumeret, szinek, tavolsag } from '../theme.js';
+import Gomb from './Gomb.js';
 
 export default function Bejegyzes({ cim, hely, leiras, kedvenc, onKedvencValt }) {
   return (
     <View style={[styles.kartya, kedvenc && styles.kedvenc]}>
       <View style={[styles.sor]}>
         <Text style={[styles.cim]}>{cim}</Text>
-        <Pressable onPress={onKedvencValt} style={({ pressed }) => [styles.gomb, pressed && styles.lenyomottGomb]}>
-          <Text>{kedvenc ? 'Kedvenc törlése' : 'Kedvencnek jelöl'}</Text>
-        </Pressable>
+        <Gomb
+          cim={kedvenc ? 'Kedvenc törlése' : 'Kedvencnek jelöl'}
+          onPress={onKedvencValt}
+          tipus={kedvenc ? 'veszelyes' : 'masodlagos'}
+        />
       </View>
       <View>
         <Text style={[styles.hely]}>
@@ -21,9 +25,9 @@ export default function Bejegyzes({ cim, hely, leiras, kedvenc, onKedvencValt })
 
 const styles = StyleSheet.create({
   kartya: {
-    padding: 16,
-    borderRadius: 12,
-    margin: 16,
+    padding: tavolsag.extraNagy,
+    borderRadius: tavolsag.nagy,
+    margin: tavolsag.extraNagy,
     borderWidth: 4,
     alignItems: 'center',
     flex: 1,
@@ -35,24 +39,16 @@ const styles = StyleSheet.create({
   },
   cim: {
     fontWeight: 'bold',
-    fontSize: 20,
+    fontSize: betumeret.cim,
     flex: 1,
   },
   hely: {
-    color: 'gray',
+    color: szinek.szurke,
   },
   szin: {
     numberOflines: 2,
   },
   kedvenc: {
-    borderLeftColor: 'yellow',
-  },
-  gomb: {
-    borderWidth: 1,
-    padding: 8,
-    alignItems: 'center',
-  },
-  lenyomottGomb: {
-    opacity: 0.5,
+    borderLeftColor: szinek.kedvenc,
   },
 });
