@@ -2,9 +2,9 @@ import { Image, StyleSheet, Text, View } from 'react-native';
 import { betumeret, szinek, tavolsag } from '../theme.js';
 import Gomb from './Gomb.js';
 
-export default function Bejegyzes({ cim, hely, leiras, kedvenc, kep, onKedvencValt }) {
+export default function Bejegyzes({ cim, hely, leiras, kedvenc, kep, onKedvencValt, style }) {
   return (
-    <View style={[styles.kartya, kedvenc && styles.kedvenc]}>
+    <View style={[styles.kartya, kedvenc && styles.kedvenc, style]}>
       {kep ? (
         <View style={styles.kepKontener}>
           <Image source={{ uri: kep }} style={styles.kep} />
