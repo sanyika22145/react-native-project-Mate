@@ -9,6 +9,7 @@ import { szinek, tavolsag } from './theme.js';
 export default function App() {
   const [cim, setCim] = useState('');
   const [hely, setHely] = useState('');
+  const [kep, setKep] = useState('');
   const [hiba, setHiba] = useState(false);
   const [keresesSzoveg, setKeresesSzoveg] = useState('');
   const [kereses, setKereses] = useState('');
@@ -34,14 +35,16 @@ export default function App() {
       return;
     }
     setHiba(false);
-    hozzaad(cim, hely);
+    hozzaad(cim, hely, kep.trim());
     setCim('');
     setHely('');
+    setKep('');
   };
 
   return (
     <ScrollView
       style={{ marginTop: tavolsag.statisztikaKoz, backgroundColor: szinek.hatter }}
+      contentContainerStyle={styles.listaTartalom}
       keyboardShouldPersistTaps="handled"
     >
       <View style={[styles.statisztika]}>
@@ -60,6 +63,7 @@ export default function App() {
         value={hely}
         onChangeText={setHely}
       />
+      <TextInput style={[styles.input]} placeholder="Kép URL (nem kötelező)" value={kep} onChangeText={setKep} />
       <Gomb cim="Hozzáadás" onPress={ujBejegyzesHozzaadasa} />
       <View style={[styles.bevitel]}>
         <TextInput
@@ -86,6 +90,7 @@ export default function App() {
             hely={elem.hely}
             leiras={elem.leiras}
             kedvenc={elem.kedvenc}
+            kep={elem.kep}
             onKedvencValt={() => kedvencValt(elem.id)}
           />
         ))
@@ -96,6 +101,10 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
+  listaTartalom: {
+    padding: tavolsag.extraNagy,
+    gap: tavolsag.kozepes,
+  },
   statisztika: {
     flex: 1,
     gap: tavolsag.statisztikaKoz,

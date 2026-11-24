@@ -1,8 +1,21 @@
 import { useEffect, useState } from 'react';
 
 const mintaBejegyzesek = [
-  { id: '1', cim: 'Balatoni hétvége', hely: 'Siófok', leiras: 'Strandolás és lángos.', kedvenc: false },
-  { id: '2', cim: 'Városnézés', hely: 'Bécs', kedvenc: true },
+  {
+    id: '1',
+    cim: 'Balatoni hétvége',
+    hely: 'Siófok',
+    leiras: 'Strandolás és lángos.',
+    kedvenc: false,
+    kep: 'https://picsum.photos/seed/lake/600/400',
+  },
+  {
+    id: '2',
+    cim: 'Városnézés',
+    hely: 'Bécs',
+    kedvenc: true,
+    kep: 'https://picsum.photos/seed/wienna/600/400',
+  },
   { id: '3', cim: 'Kirándulás', hely: 'Mátra', leiras: 'Túra a Kékestetőre.', kedvenc: false },
 ];
 
@@ -19,8 +32,14 @@ function useBejegyzesek() {
     return () => clearTimeout(idozito);
   }, []);
 
-  const hozzaad = (cim, hely) => {
-    const ujBejegyzes = { id: Date.now().toString(), cim, hely, kedvenc: false };
+  const hozzaad = (cim, hely, kep) => {
+    const ujBejegyzes = {
+      id: Date.now().toString(),
+      cim,
+      hely,
+      kedvenc: false,
+      ...(kep ? { kep } : {}),
+    };
     setBejegyzesek((b) => [...b, ujBejegyzes]);
   };
 
